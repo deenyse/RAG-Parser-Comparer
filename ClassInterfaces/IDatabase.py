@@ -3,7 +3,7 @@ from abc import ABC, abstractclassmethod
 class Chunk():
     pass
 
-class iDatabase(ABC):
+class IDatabase(ABC):
     def __init__(self) -> None:
         pass
 
@@ -12,5 +12,5 @@ class iDatabase(ABC):
         pass
 
     @abstractclassmethod
-    def getfDocuments (self, queryEmmbeding, documentsAmoubt) -> list[str]: #returns retrieved documents for context (func NEEDs some renaming)
+    def getfDocuments (self, query_embedding, documents_amount) -> list[str]: #returns retrieved documents for context (func NEEDs some renaming)
         pass

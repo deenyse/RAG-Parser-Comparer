@@ -2,8 +2,8 @@ from abc import ABC, abstractclassmethod
 
 
 
-class iLLM(ABC):
-    def __init__(self, apiKey) -> None:
+class ILLM(ABC):
+    def __init__(self, api_key) -> None:
         pass
 
     @abstractclassmethod

@@ -1,14 +1,25 @@
-from classInterfaces.iParser import iParser
+from Parsers.PdfPlumber import ParsByPdfPlumber
 
-
-class Parser(iParser):
-    def __init__(self, name):
-        super().__init__(name)
-
-
-    def parse(self):
-        print(self.name)
 
 if __name__ == "__main__":
-    myParser = Parser("MyParser")
-    myParser.parse()
+    print("Hello world")
+    # #Way to open _1_
+    # with ParsByPdfPlumber() as parser:
+    #     parser.open("TestFiles/ParserTestingPDF.pdf")
+    #     for chunk in parser:
+    #         print(chunk)
+
+    # #Way to open _2_
+    # parser = ParsByPdfPlumber()
+    # parser.open("TestFiles/ParserTestingPDF.pdf")
+    # for chunk in parser:
+    #     print(chunk)
+
+    # #Way to open _3_
+    # parser = ParsByPdfPlumber()
+    # parser.open("TestFiles/ParserTestingPDF.pdf")
+    # while True:
+    #     text = parser.get_next_text_block()
+    #     if text is None:
+    #         break
+    #     print(text)

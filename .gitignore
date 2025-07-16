@@ -9,3 +9,6 @@ env/
 
 # macOS specific
 .DS_Store
+
+#Project uncommit files
+TestFiles

@@ -1,14 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import ABC, abstractmethod, abstractproperty
 from typing import Optional, Iterator
 
-class iParser(ABC):
-    def __init__(self, file_path: str):
+class IParser(ABC):
+    def __init__(self) -> None:
         """Initialize the parser with the file path."""
-        self.file_path = file_path
-        self._is_open = False
 
     @abstractmethod
-    def open(self) -> None:
+    def open(self, file_path:str) -> None:
         """Initialize the parser and open the file for reading, setting up for minimal memory usage."""
         pass
 
@@ -18,25 +16,21 @@ class iParser(ABC):
         pass
 
     @abstractmethod
-    def get_next_chunk(self) -> Optional[str]:
-        """Retrieve the next chunk of text from the file, loading only one chunk at a time. Returns None if no more chunks."""
+    def get_next_text_block(self) -> str or None: ## this thing will be needed to reimplement for each parser individually(even though the code is almost the same. I NEED OT DO SEPARETE CHUNKER CLASS
+        """Retrieve the next block of text from the file, loading only one chunk at a time. Returns None if no more chunks."""
         pass
 
     def __enter__(self):
         """Enter method for context manager support, opens the parser with proper resource management."""
-        self.open()
-        self._is_open = True
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
         """Exit method for context manager support, ensures resources are cleaned up to free memory."""
-        self.close()
-        self._is_open = False
 
     def __iter__(self) -> Iterator[str]:
         """Make the parser iterable, yielding chunks one at a time to minimize memory usage."""
         while True:
-            chunk = self.get_next_chunk()
+            chunk = self.get_next_text_block()
             if chunk is None:
                 break
             yield chunk
