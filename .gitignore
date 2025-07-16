@@ -1,0 +1,11 @@
+# Python virtual environments
+venv/
+.venv/
+env/
+
+# IDE and editor files
+.idea/
+.vscode/
+
+# macOS specific
+.DS_Store
