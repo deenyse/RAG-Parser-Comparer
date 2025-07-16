@@ -20,7 +20,7 @@ class IParser(ABC):
         """Retrieve the next block of text from the file, loading only one chunk at a time. Returns None if no more chunks."""
         pass
 
-    def __enter__(self):
+    def __enter__(self) -> "IParser":
         """Enter method for context manager support, opens the parser with proper resource management."""
         return self
 
