@@ -1,15 +1,14 @@
-from abc import ABC
-
 import pdfplumber
 
 from ClassInterfaces.IParser import IParser
 
-class ParsByPdfPlumber(IParser): #later add support to IParser
+class ParsByPdfPlumber(IParser):
     file = None
     page_iterator = None
 
-    def __init__(self) -> None:
-        super().__init__()
+    def __init__(self, file_name: str) -> None:
+        super().__init__(file_name)
+
 
     def get_next_text_block(self) -> str or None:
         try:
@@ -20,13 +19,15 @@ class ParsByPdfPlumber(IParser): #later add support to IParser
         except StopIteration:
             return None
 
-    def open(self, file_path:str):
+    def _open(self):
         try:
-            self.file = pdfplumber.open(file_path)
+            self.file = pdfplumber.open(self.file_name)
             self.page_iterator = iter(self.file.pages)
         except Exception as e:
-            print(f"Error during file opening: {e}")
+            raise Exception(f"Error opening file: {e}")
 
-    def close(self):
-        self.file.close()
-
+    def _close(self):
+        if self.file is not None:
+            self.file.close()
+            self.file = None
+            self.page_iterator = None

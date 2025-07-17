@@ -5,10 +5,9 @@ if __name__ == "__main__":
     # print("Hello World")
 
     #Way to open _1_
-    with ParsByPdfPlumber() as parser:
-        parser.open("TestFiles/ParserTestingPDF.pdf")
+    with ParsByPdfPlumber("TestFiles/ParserTestingPDF.pdf") as parser:
         for chunk in parser:
-            print(chunk)
+                print(chunk)
 
     # #Way to open _2_
     # parser = ParsByPdfPlumber()
