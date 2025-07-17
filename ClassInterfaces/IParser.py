@@ -2,15 +2,17 @@ from abc import ABC, abstractmethod, abstractproperty
 from typing import Optional, Iterator
 
 class IParser(ABC):
-    def __init__(self, file_name:str) -> None:
+
+    def __init__(self, file_name:Optional[str] = None) -> None:
         self.file_name = file_name
 
+
     @abstractmethod
-    def _open(self) -> None:
+    def open(self, file_name:Optional[str] = None) -> None:
         pass
 
     @abstractmethod
-    def _close(self) -> None:
+    def close(self) -> None:
         pass
 
     @abstractmethod
@@ -18,11 +20,11 @@ class IParser(ABC):
         pass
 
     def __enter__(self) -> "IParser":
-        self._open()
+        self.open()
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb) -> None:
-        self._close()
+        self.close()
     def __iter__(self) -> Iterator[str]:
         while True:
             chunk = self.get_next_text_block()

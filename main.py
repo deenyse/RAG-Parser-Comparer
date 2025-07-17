@@ -1,25 +1,31 @@
 from Parsers.PdfPlumber import ParsByPdfPlumber
-
+from Tools.SymbolChunker import Chunker
 
 if __name__ == "__main__":
-    # print("Hello World")
+    '''
+    "TestFiles/ParserTestingPDF.pdf"
+    '''
 
-    #Way to open _1_
-    with ParsByPdfPlumber("TestFiles/ParserTestingPDF.pdf") as parser:
-        for chunk in parser:
-                print(chunk)
 
-    # #Way to open _2_
+    chunker = Chunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 10, 2)
+    chunker.open()
+    print(chunker.get_next_chunk())
+    print("--------------")
+    print(chunker.get_next_chunk())
+    print("--------------")
+    print(chunker.get_next_chunk())
+    print("--------------")
+    print(chunker.get_next_chunk())
+
+
+    # #WORKS
     # parser = ParsByPdfPlumber()
     # parser.open("TestFiles/ParserTestingPDF.pdf")
-    # for chunk in parser:
-    #     print(chunk)
+    #
+    # print(next(iter(parser)))
 
-    # #Way to open _3_
-    # parser = ParsByPdfPlumber()
-    # parser.open("TestFiles/ParserTestingPDF.pdf")
-    # while True:
-    #     text = parser.get_next_text_block()
-    #     if text is None:
-    #         break
-    #     print(text)
+    # #WORKS _2_
+
+    # with ParsByPdfPlumber("TestFiles/ParserTestingPDF.pdf") as parser:
+    #     for chunk in parser:
+    #         print(chunk)
