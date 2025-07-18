@@ -1,22 +1,23 @@
 from Parsers.PdfPlumber import ParsByPdfPlumber
-from Tools.SymbolChunker import Chunker
+from Tools.SymbolChunker import SymbolChunker
 
 if __name__ == "__main__":
-    '''
-    "TestFiles/ParserTestingPDF.pdf"
-    '''
+# TODO simplify parser structure, to remove redundant context manager construction
+#   move this construction into IChunker, so i can open Chunkers as a context(in the RAG pipline)
 
 
-    chunker = Chunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 10, 2)
+
+    # with SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70) as chunker:
+    #     for block in chunker:
+    #         print(block)
+    #         print("--------")
+
+    chunker = SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70)
     chunker.open()
-    print(chunker.get_next_chunk())
-    print("--------------")
-    print(chunker.get_next_chunk())
-    print("--------------")
-    print(chunker.get_next_chunk())
-    print("--------------")
-    print(chunker.get_next_chunk())
 
+    with SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70) as chunker:
+        for chunk in chunker:
+            print(chunk)
 
     # #WORKS
     # parser = ParsByPdfPlumber()

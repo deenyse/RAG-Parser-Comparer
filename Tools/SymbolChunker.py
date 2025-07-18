@@ -1,8 +1,9 @@
-from ClassInterfaces import IChunker, IParser
+from ClassInterfaces.IChunker import IChunker
+from ClassInterfaces import  IParser
 from typing import Optional
 
 #this is a strict chunker, which chunks by symbol amount
-class SymbolChunker:
+class SymbolChunker(IChunker):
     is_more_text = True
     input_text_buffer = ""
 
@@ -11,34 +12,33 @@ class SymbolChunker:
 
     iterable_parsed_file = None
     def __init__(self, parser: IParser, file_name:str, chunk_size:int, overlap_size:int) -> None:
+        if chunk_size <= 0:
+            raise ValueError("chunk_size must be positive")
+        if overlap_size < 0:
+            raise ValueError("overlap_size cannot be negative")
+        if overlap_size > chunk_size:
+            raise ValueError("overlap_size cannot be larger than chunk_size")
+
+        super().__init__(file_name)
         self.parser = parser
-        self.file_name = file_name
         self.chunk_size = chunk_size
         self.overlap_size = overlap_size
 
-    def open(self, file_name:Optional[str] = None) -> None:
+    def open(self) -> None:
         try:
-            if file_name is not None:
-                self.file_name = file_name
-
             if self.file_name is None:
                 raise Exception("File location is incorrect")
 
-            self.iterable_parsed_file = self.parser()
-            self.iterable_parsed_file.open(self.file_name)
-            self.iterable_parsed_file = iter(self.iterable_parsed_file)
-
+            self.iterable_parsed_file = self.parser(self.file_name)
         except Exception as e:
             raise Exception(f"Error opening file: {e}")
 
 
     def close(self) -> None:
-        self.parser.close()
-
+        self.iterable_parsed_file.close()
 
     def expand_input_text_buffer(self) -> None:
-        next_text = next(self.iterable_parsed_file)
-
+        next_text = self.iterable_parsed_file.get_next_text_block()
         if next_text is None:
             self.is_more_text = False
             return
@@ -47,6 +47,9 @@ class SymbolChunker:
 
 
     def get_next_chunk(self) -> Optional[str]:
+        if self.iterable_parsed_file is None:
+            raise RuntimeError("File is not open")
+
         if len(self.input_text_buffer) < self.chunk_size - self.overlap_size:
             self.expand_input_text_buffer()
 
