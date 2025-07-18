@@ -1,9 +1,23 @@
 from abc import ABC, abstractmethod
 from typing import  Iterator, Optional
 
+from ClassInterfaces import IParser
+
+
 class IChunker(ABC):
-    def __init__(self, file_name:str) -> None:
-       self.file_name = file_name
+    """
+    Abstract class for chunker classes.
+    Takes:
+        parser: IParser by which the file will be parsed
+        file_name: name of the file to be parsed
+        chunk_size: size of the chunk
+        overlap_size: size of the previous chunk, that will be added to next one
+    """
+    def __init__(self, parser: IParser, file_name:str, chunk_size:int, overlap_size:int) -> None:
+        self.file_name = file_name
+        self.parser = parser
+        self.chunk_size = chunk_size
+        self.overlap_size = overlap_size
 
     @abstractmethod
     def open(self) -> None:

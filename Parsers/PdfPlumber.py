@@ -3,7 +3,9 @@ from typing import Optional
 from ClassInterfaces.IParser import IParser
 
 class ParsByPdfPlumber(IParser):
+    #place to keep opened file
     file = None
+    #palce to keep pages iterator retrieved from files
     page_iterator = None
 
     def __init__(self, file_name:Optional[str] = None) -> None:

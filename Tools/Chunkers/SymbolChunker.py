@@ -4,10 +4,14 @@ from typing import Optional
 
 #this is a strict chunker, which chunks by symbol amount
 class SymbolChunker(IChunker):
+    #is more text to retrieve from file
     is_more_text = True
+    #buffer for text from file
     input_text_buffer = ""
 
+    #ocverlap from previous chunk
     prev_chunk_overlap = ""
+    #chunk to be returned after next in the iteration
     new_chunk = ""
 
     iterable_parsed_file = None
@@ -19,10 +23,7 @@ class SymbolChunker(IChunker):
         if overlap_size > chunk_size:
             raise ValueError("overlap_size cannot be larger than chunk_size")
 
-        super().__init__(file_name)
-        self.parser = parser
-        self.chunk_size = chunk_size
-        self.overlap_size = overlap_size
+        super().__init__(parser, file_name, chunk_size, overlap_size)
 
     def open(self) -> None:
         try:

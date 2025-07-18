@@ -1,39 +1,26 @@
 from Parsers.PdfPlumber import ParsByPdfPlumber
-from Tools.SymbolChunker import SymbolChunker
-
-import yaml
+from Tools.Chunkers.SymbolChunker import SymbolChunker
+from Tools.config import get_config
 
 
 if __name__ == "__main__":
-
-
-    def load_config(file_path="config.yaml"):
-        try:
-            with open(file_path, "r") as file:
-                return yaml.safe_load(file)
-        except FileNotFoundError:
-            raise FileNotFoundError(f"Config file {file_path} was not found.")
-        except yaml.YAMLError as e:
-            raise ValueError(f"YAML parsing issue: {str(e)}")
-
-
-    # Загружаем конфигурацию
-    config = load_config()
-    GEMINI_API_KEY = config.get("gemini_api", {}).get("key")
-
-    print("GEMINI API KEY: {}".format(GEMINI_API_KEY))
+    # # Load configuration
+    # config = get_config()
+    # GEMINI_API_KEY = config.get("gemini_api", {}).get("key")
+    #
+    # print("GEMINI API KEY: {}".format(GEMINI_API_KEY))
 
     # with SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70) as chunker:
     #     for block in chunker:
     #         print(block)
     #         print("--------")
 
-    chunker = SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70)
-    chunker.open()
+    # chunker = SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70)
+    # chunker.open()
 
-    # with SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70) as chunker:
-    #     for chunk in chunker:
-    #         print(chunk)
+    with SymbolChunker(ParsByPdfPlumber, "TestFiles/OverlapTest.pdf", 400, 70) as chunker:
+        for chunk in chunker:
+            print(chunk)
 
     # #WORKS
     # parser = ParsByPdfPlumber()
