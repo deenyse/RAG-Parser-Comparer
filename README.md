@@ -20,7 +20,7 @@ This project provides a modular system for parsing PDF files and chunking their 
 
 1. **Install dependencies** (requires Python 3.7+):
    ```bash
-   pip install pdfplumber pyyaml
+   pip install pdfplumber pyyaml google-genai
    ```
 
 2. **Prepare your config file**:
@@ -46,3 +46,4 @@ gemini_api:
 ## Extending
 - **Add a new parser**: Implement the `IParser` interface in `ClassInterfaces/IParser.py`.
 - **Add a new chunker**: Implement the `IChunker` interface in `ClassInterfaces/IChunker.py`.
+- **Add a new LLM**: Implement the `ILLM` interface in `ClassInterfaces/ILLM.py`.
