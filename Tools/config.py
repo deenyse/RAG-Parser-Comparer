@@ -18,7 +18,7 @@ def get_config(file_path="config.yaml"):
                 raise ValueError(f"Confing YAML {file_path} is empty.")
 
         # Check GEMINI_API_KEY existence
-        api_key = config.get("api", {}).get("key") or os.getenv("GEMINI_API_KEY")
+        api_key = config.get("gemini_config", {}).get("api_key") or os.getenv("GEMINI_API_KEY")
         if not api_key:
             raise ValueError("GEMINI_API_KEY is not in config.yaml whether environment variables are set.")
 
