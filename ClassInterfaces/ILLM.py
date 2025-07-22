@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from typing import List, Union, Optional
 
 class ILLM(ABC):
     def __init__(self, gemini_conf:dict) -> None:
@@ -14,6 +14,6 @@ class ILLM(ABC):
         pass
 
     @abstractmethod
-    def get_response_based_on_context(self, context:list[str], queries:list[str]) -> list[str]:
+    def get_response_based_on_context(self, queries:Union[List[str], str], model:Optional[str] = None, context:Optional[list[str]] = None) -> list[str]:
         pass
 

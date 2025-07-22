@@ -1,4 +1,5 @@
 from google import genai
+from google.genai import types
 from typing import Optional, Union, List
 from enum import Enum
 from ClassInterfaces.ILLM import ILLM
@@ -26,9 +27,10 @@ class Gemini(ILLM):
             response = self.client.models.embed_content(
                 model=model,
                 contents=chunks,
-                config={
-                    "task_type": task_type.value
-                }
+                config=types.EmbedContentConfig(
+                    task_type=task_type.value,
+                    title="Custom query"
+                )
             )
 
             return [e.values for e in response.embeddings]
@@ -54,6 +56,8 @@ class Gemini(ILLM):
         if model is None:
             model = self.query_model
 
+
+
         prompt = \
         f"""
         Answer questions based on given context
@@ -64,23 +68,34 @@ class Gemini(ILLM):
         Write answer
         ANSWER:
         """
-            # f"""You are a helpful and informative bot that answers questions using text from the reference passage included below. \
-            # Be sure to respond in a complete sentence, being comprehensive, including all relevant background information. \
-            # However, you are talking to a non-technical audience, so be sure to break down complicated concepts and \
-            # strike a friendly and conversational tone. \
-            # If the passage is irrelevant to the answer, you may ignore it.
+
+
+#         """
+#         You are a helpful and informative bot that answers questions using
+# text from the reference passage included below.
+# Be sure to respond in a complete sentence, being comprehensive,
+# including all relevant background information.
+# However, you are talking to a non-technical audience, so be sure to
+# break down complicated concepts and strike a friendly
+# and converstional tone. If the passage is irrelevant to the answer,
+# you may ignore it.
+# QUESTION: 'How do you use the touchscreen in the Google car?'
+# PASSAGE: '   Your Googlecar has a large touchscreen display that provides access to a   variety of features, including navigation, entertainment, and climate   control. To use the touchscreen display, simply touch the desired icon.   For example, you can touch the Navigation icon to get directions to   your destination or touch the Music icon to play your favorite songs. '
+#
+# ANSWER:
+#         """
 
 
         try:
             response = self.client.models.generate_content(
                 model=model,
                 contents=prompt,
-                config={
-                    "response_mime_tpye": "application/list",
-                    "response_schema": list[str],
-                }
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=list[str]
+                )
             )
-        #TODO SOLVE Expected type 'Union[GenerateContentConfig, GenerateContentConfigDict, None]', got 'dict[str, Union[str, type[list[str]]]]' instead
+
             return response.parsed
 
         except Exception as e:

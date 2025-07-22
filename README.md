@@ -20,7 +20,7 @@ This project provides a modular system for parsing PDF files and chunking their 
 
 1. **Install dependencies** (requires Python 3.7+):
    ```bash
-   pip install pdfplumber pyyaml google-genai
+   pip install pdfplumber pyyaml google-genai chromadb
    ```
 
 2. **Prepare your config file**:
