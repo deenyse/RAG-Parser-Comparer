@@ -31,7 +31,7 @@ def rag_pipline(parser: IParser, chunker: IChunker, database: IDatabase, llm: Un
         for chunk in chunks:
             test_database.add_chunks([chunk])
 
-    context = test_database.get_documents(queries, 10)
+    context = test_database.get_documents(queries, 20)
 
 
 
