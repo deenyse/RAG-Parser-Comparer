@@ -1,6 +1,9 @@
+from PIL.PdfParser import PdfParser
+
+from Parsers.LlamaParse import LlamaParser
 from Tools.config import get_config
 from LLMs.GoogleGemini import Gemini
-from Tools.RAGPipline import rag_pipline
+from Tools.RAGPipline import RagPipline
 from Chunkers.SymbolChunker import SymbolChunker
 from Parsers.PdfPlumber import ParsByPdfPlumber
 from DBs.ChromaDB import ChromaDB
@@ -9,35 +12,40 @@ if __name__ == "__main__":
     # Load configuration
     config = get_config()
 
-    print(config)
-    file_name = "TestFiles/biography-cz.pdf"
+    file_names = ["TestFiles/biography.pdf","TestFiles/biography2.pdf"]
     questions = [
-    "Jak se jmenuje osoba, jejíž životopis je popsán v dokumentu?",
-    "When and where was Ivan Petrov born?",
-    "Jaké vzdělání získal Ivan Petrov?",
-    "In which year did Ivan found the company «TechnoSparks»?",
-    "Jakou pozici zastává Ivan ve společnosti «FutureTech»?",
-    "What is the name of the foundation established by Ivan, and what is its purpose?",
-    "Kolik studentů podpořila nadace «Vědomosti pro budoucnost»?",
-    "What is the name of Ivan’s wife and what is her profession?",
-    "Jaká ocenění získal Ivan Petrov?",
-    "What is Ivan’s hobby related to music?",
-    "Na jakém projektu Ivan v současnosti pracuje?",
-    "What is Ivan’s long-term dream in the field of education?",
-    "Kolik dětí má Ivan a jak se jmenují?",
-    "In which year was the company «TechnoSparks» acquired by an international corporation?",
-    "Jaký balet je Ivanovým oblíbeným dílem?"
-]
-    answers = rag_pipline(ParsByPdfPlumber, SymbolChunker, ChromaDB, Gemini, config["gemini_config"], file_name, questions)
+        "Чё Ваня Петров делал для природы где-то в Сибири?",
+        "Иван Петров тусовался с исследованиями про климат и всякое такое?",
+        "Какую штуку для лесов придумал Ваня Петров?",
+        "Давали ли Ивану Петрову какие-нибудь награды за экологию?",
+        "Ваня Петров писал что-нибудь про сибирскую природу?",
+        "Когда Иван Петров начал копаться в науке про экологию?",
+        "Как Ваня Петров в интернете про науку заливал?",
+        "Какую движуху для школьников замутал Иван Петров?",
+        "Чё Ваня Петров делал, чтобы животных спасти?",
+        "Тусил ли Иван Петров на каком-нибудь форуме про природу?"
+    ]
 
+#TODO: Unify parser interface, to be able treated as same module
+    rag_client = RagPipline(ParsByPdfPlumber, LlamaParser(config["llama_parse"]).get_parser(), ChromaDB, Gemini, config["gemini_config"], file_names, questions)
+    answers = rag_client.process()
     print("\n\n".join(answers))
+
+
+
+
+    # parser = LlamaParser(config["llama_parse"], "TestFiles/Monopoly.pdf")
+
+
+
+    # parser = LlamaParser(config["llama_parse"],"TestFiles/Monopoly.pdf")
+    # text = parser.get_next_text_block()
+    # while text is not None:
+    #     print(text)
+    #     text = parser.get_next_text_block()
 
 #TODO:
 # ----------FUTURE_PLANS----------
-# 2. Write some comments to RAG pipline, Gemini, iDatabase(ChromaDB),
-# 4. Update README
-# 5. Maby change RAG pipline to Class instead of function(assume yes - because i have a lot of params that will be needed to interchange[like file location, etc.]
-#   a. Need to think through Parsers Testing Module
 # 6. Implement further parsers.
 # 7. Check how systems are interchangeable(i mean parsers, DBs, LLMs, etc.)
 # ----------STRUCTURE_SIMPLIFICATION----------
