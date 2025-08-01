@@ -11,6 +11,9 @@ class LlamaParser(IParser):
 
     def __init__(self, config:dict, file_name: Optional[str] = None ) -> None:
         super().__init__(file_name)
+        if config is None:
+            raise Exception(f"LlamaParser requires a config file")
+
         self.client = LlamaParse(
             api_key=config["api_key"],
             num_workers=4,       # if multiple files passed, split in `num_workers` API calls
