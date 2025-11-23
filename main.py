@@ -1,6 +1,6 @@
 from PIL.PdfParser import PdfParser
 
-from Parsers.LlamaParse import LlamaParser
+from Parsers.LlamaParse import LlamaParseMd
 from Tools.config import get_config
 from LLMs.GoogleGemini import Gemini
 from Tools.RAGPipline import RagPipline
@@ -29,7 +29,7 @@ if __name__ == "__main__":
     "How is a mortgaged Property valued in the Time Limit Game’s final wealth calculation?"
 ]
 
-    rag_client = RagPipline(PyMuPdfRaw(), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
+    rag_client = RagPipline(LlamaParseMd(config), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
     answers = rag_client.process()
     print("\n\n".join(answers))
 
