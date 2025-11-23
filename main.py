@@ -8,6 +8,7 @@ from Chunkers.SymbolChunker import SymbolChunker
 from Parsers.PdfPlumber import PdfPlumber
 from Parsers.PyMuPdf4LLM import PyMuPdf4LLM
 from Parsers.PyMuPdfRaw import PyMuPdfRaw
+from Parsers.AzureParse import AzureDocumentParser
 
 from DBs.ChromaDB import ChromaDB
 
@@ -29,7 +30,7 @@ if __name__ == "__main__":
     "How is a mortgaged Property valued in the Time Limit Game’s final wealth calculation?"
 ]
 
-    rag_client = RagPipline(LlamaParseMd(config), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
+    rag_client = RagPipline(AzureDocumentParser(config), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
     answers = rag_client.process()
     print("\n\n".join(answers))
 
