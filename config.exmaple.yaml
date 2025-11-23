@@ -1,5 +1,9 @@
 gemini_config:
-  api_key:
-  embedding_model : "gemini-embedding-001"
-  query_model: "gemini-2.5-flash-lite-preview-06-17" #1000 requests per day
+  api_key: ""
+  query_model: "gemini-2.5-flash" #1000 requests per day
   query_model_2: "gemini-1.5-flash" #extra model in case of requests lack
+llama_parse:
+  api_key: ""
+azure:
+  api_key: ""
+  endpoint: ""
