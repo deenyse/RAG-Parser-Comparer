@@ -3,7 +3,7 @@ from typing import Optional, Iterator
 from ClassInterfaces.IParser import IParser
 
 
-class PyMuPdf(IParser):
+class PyMuPdf4LLM(IParser):
     # Iterator for parsed pages
     pages_iterator: Optional[Iterator[dict]] = None
 

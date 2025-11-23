@@ -1,13 +1,14 @@
 from PIL.PdfParser import PdfParser
 
 from Parsers.LlamaParse import LlamaParser
-from Parsers.PyMuPdf import PyMuPdf
 from Tools.config import get_config
 from LLMs.GoogleGemini import Gemini
 from Tools.RAGPipline import RagPipline
 from Chunkers.SymbolChunker import SymbolChunker
 from Parsers.PdfPlumber import PdfPlumber
-from Parsers.PyMuPdf import PyMuPdf
+from Parsers.PyMuPdf4LLM import PyMuPdf4LLM
+from Parsers.PyMuPdfRaw import PyMuPdfRaw
+
 from DBs.ChromaDB import ChromaDB
 
 if __name__ == "__main__":
@@ -28,8 +29,7 @@ if __name__ == "__main__":
     "How is a mortgaged Property valued in the Time Limit Game’s final wealth calculation?"
 ]
 
-# #TODO: Unify parser interface, to be able treated as same module
-    rag_client = RagPipline(PyMuPdf(), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
+    rag_client = RagPipline(PyMuPdfRaw(), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
     answers = rag_client.process()
     print("\n\n".join(answers))
 
