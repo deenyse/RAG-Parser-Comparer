@@ -6,14 +6,13 @@ class IParser(ABC):
     Abstract base class for file parsers in the system.
     Provides interface for opening, closing, and iterating over text blocks in a file.
     """
-    def __init__(self, file_name:Optional[str] = None, config:Optional[dict] = None) -> None:
+    def __init__(self, config:Optional[dict] = None) -> None:
         """
         Initialize the parser with an optional file name.
         Args:
             file_name (Optional[str]): File to parse.
         """
-        self.file_name = file_name
-
+        pass
     @abstractmethod
     def open(self, file_name:Optional[str]) -> None:
         """

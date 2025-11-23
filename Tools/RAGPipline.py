@@ -32,7 +32,7 @@ class RagPipline:
                 for chunk in chunks:
                     batch.append(chunk)
                     # Optional: add in batches to save memory if files are huge
-                    if len(batch) >= 50:
+                    if len(batch) >= 20:
                         self.database_client.add_chunks(batch)
                         batch = []
 

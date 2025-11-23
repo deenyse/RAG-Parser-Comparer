@@ -2,14 +2,14 @@ import pdfplumber
 from typing import Optional
 from ClassInterfaces.IParser import IParser
 
-class ParsByPdfPlumber(IParser):
+class PdfPlumber(IParser):
     #place to keep opened file
     file = None
     #palce to keep pages iterator retrieved from files
     page_iterator = None
 
-    def __init__(self, file_name:Optional[str] = None) -> None:
-        super().__init__(file_name)
+    def __init__(self) -> None:
+        pass
 
     def open(self, file_name:str) -> None:
         try:
@@ -27,8 +27,6 @@ class ParsByPdfPlumber(IParser):
             return next(self.page_iterator).extract_text()
         except StopIteration:
             return None
-
-
 
     def close(self):
         if self.file is not None:
