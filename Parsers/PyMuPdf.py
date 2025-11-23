@@ -3,7 +3,7 @@ from llama_cloud_services import LlamaParse
 from typing import Optional
 
 
-class LlamaParser(IParser):
+class PyMuPdf(IParser):
     #place to keep opened file
     file = None
     #palce to keep pages iterator retrieved from files
@@ -11,18 +11,7 @@ class LlamaParser(IParser):
 
     def __init__(self, config:dict, file_name: Optional[str] = None ) -> None:
         super().__init__(file_name)
-        if config is None:
-            raise Exception(f"LlamaParser requires a config file")
 
-        self.client = LlamaParse(
-            api_key=config["api_key"],
-            num_workers=4,       # if multiple files passed, split in `num_workers` API calls
-            verbose=False, #do not print status into console
-            fast_mode=True,
-            # partition_pages=2
-        )
-        if file_name is not None:
-            self.open(self.file_name)
 
 
     def get_next_text_block(self) -> Optional[str]:
@@ -37,7 +26,6 @@ class LlamaParser(IParser):
         try:
             self.file_name = file_name
 
-            self.file = self.client.parse(self.file_name)
             self.page_iterator = iter(self.file.pages)
         except Exception as e:
             raise Exception(f"Error opening file: {e}")

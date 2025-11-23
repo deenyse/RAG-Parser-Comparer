@@ -22,8 +22,6 @@ class SymbolChunker(IChunker):
     # chunk to be returned after next in the iteration
     new_chunk = ""
 
-    opened_parsed_file = None
-
     def __init__(self, parser: IParser, file_name:str, chunk_size:int, overlap_size:int) -> None:
         """
         Initialize the SymbolChunker.
@@ -52,7 +50,7 @@ class SymbolChunker(IChunker):
         try:
             if self.file_name is None:
                 raise Exception("File location is incorrect")
-            self.opened_parsed_file = self.parser(self.file_name)
+            self.parser.open(self.file_name)
         except Exception as e:
             raise Exception(f"Error opening file: {e}")
 
@@ -60,14 +58,14 @@ class SymbolChunker(IChunker):
         """
         Close the file and release resources.
         """
-        self.opened_parsed_file.close()
+        self.parser.close()
 
     def expand_input_text_buffer(self) -> None:
         """
         Expand the internal buffer with more text from the file.
         Sets is_more_text to False if end of file is reached.
         """
-        next_text = self.opened_parsed_file.get_next_text_block()
+        next_text = self.parser.get_next_text_block()
         if next_text is None:
             self.is_more_text = False
             return
@@ -81,7 +79,7 @@ class SymbolChunker(IChunker):
         Raises:
             RuntimeError: If file is not open.
         """
-        if self.opened_parsed_file is None:
+        if self.parser is None:
             raise RuntimeError("File is not open")
 
         if len(self.input_text_buffer) < self.chunk_size - self.overlap_size:

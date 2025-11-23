@@ -30,3 +30,10 @@ class IDatabase(ABC):
             list[str]: List of retrieved document chunks.
         """
         pass
+
+    @abstractmethod
+    def reset(self) -> None:
+        """
+        Clears the database collection.
+        """
+        pass

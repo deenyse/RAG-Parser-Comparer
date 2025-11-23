@@ -11,8 +11,14 @@ class ParsByPdfPlumber(IParser):
     def __init__(self, file_name:Optional[str] = None) -> None:
         super().__init__(file_name)
 
-        if file_name is not None:
-            self.open(self.file_name)
+    def open(self, file_name:str) -> None:
+        try:
+            self.file_name = file_name
+
+            self.file = pdfplumber.open(self.file_name)
+            self.page_iterator = iter(self.file.pages)
+        except Exception as e:
+            raise Exception(f"Error opening file: {e}")
 
     def get_next_text_block(self) -> Optional[str]:
         try:
@@ -22,14 +28,7 @@ class ParsByPdfPlumber(IParser):
         except StopIteration:
             return None
 
-    def open(self, file_name:str) -> None:
-        try:
-            self.file_name = file_name
 
-            self.file = pdfplumber.open(self.file_name)
-            self.page_iterator = iter(self.file.pages)
-        except Exception as e:
-            raise Exception(f"Error opening file: {e}")
 
     def close(self):
         if self.file is not None:
