@@ -7,3 +7,6 @@ llama_parse:
 azure:
   api_key: ""
   endpoint: ""
+mongodb:
+    uri: "mongodb+srv://..."
+    db_name: "test"
