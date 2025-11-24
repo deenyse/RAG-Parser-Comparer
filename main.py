@@ -7,6 +7,7 @@ from LLMs.GoogleGemini import Gemini
 from DBs.ChromaDB import ChromaDB
 from Chunkers.SymbolChunker import SymbolChunker
 from Tools.MongoDBHandler import MongoDBHandler
+from Tools.FileManager import FileManager
 from Parsers.PdfPlumber import PdfPlumber
 from Parsers.PyMuPdf4LLM import PyMuPdf4LLM
 from Parsers.PyMuPdfRaw import PyMuPdfRaw
@@ -37,4 +38,7 @@ if __name__ == "__main__":
     # print("\n\n".join(answers))
 
     mongo = MongoDBHandler(config)
-    print(mongo.getFilesLinks(['G1341119.PDF']))
+    fm = FileManager()
+    # fm.reinitFiles()
+    fm.updateFiles(mongo)
+    print()
