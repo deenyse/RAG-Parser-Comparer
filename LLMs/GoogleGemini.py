@@ -23,17 +23,18 @@ class Gemini(ILLM):
         if model is None:
             model = self.query_model
 
+        prompt = f"""
+        Answer the questions strictly based on the provided context.
 
+        <context>
+        {context}
+        </context>
 
-        prompt = \
-        f"""
-        Answer questions based on given context
+        <questions>
+        {queries}
+        </questions>
 
-        CONTEXT: '{context}'
-        QUESTIONS: '{queries}'
-
-        Write answer
-        ANSWER:
+        If the answer to a specific question cannot be found in the context, please write "Information not found" for that specific index.
         """
 
 
@@ -59,7 +60,8 @@ class Gemini(ILLM):
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json",
-                    response_schema=list[str]
+                    response_schema=list[str],
+                    temperature = 0
                 )
             )
 
