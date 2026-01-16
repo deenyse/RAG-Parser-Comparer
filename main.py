@@ -19,26 +19,39 @@ if __name__ == "__main__":
     # Load configuration
     config = get_config()
 
-    file_names = ["TestFiles/Monopoly.pdf"]
-    questions = [
-    "What are the denominations and quantities of the £1,500 given to each player?",
-    "How much money does a player collect if they pass 'GO' and then draw a Chance card to 'Advance to GO' in one turn?",
-    "What happens to an unowned Station if a player declines to buy it, and who can bid?",
-    "Can a player collect double rent on an unmortgaged Site in a fully owned colour-group if another Site in that group is mortgaged?",
-    "What rent is paid on a Utility owned by a player with both Utilities if the dice roll is 7?",
-    "Can a player in Jail collect rent on an unmortgaged Property?",
-    "How much does the Bank pay for a Hotel sold back, including the value of the exchanged Houses?",
-    "In the Short Game, what must players do immediately after receiving two Title Deeds?",
-    "What must a player do with Houses on a colour-group before selling one of its Sites?",
-    "How is a mortgaged Property valued in the Time Limit Game’s final wealth calculation?"
-]
-
-    # rag_client = RagPipline(DoclingParser(), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
-    # answers = rag_client.process()
-    # print("\n\n".join(answers))
+    # file_names = ["TestFiles/2025pb-web.pdf"]
+    # questions = [
+    #     "How did the share of Asia (excluding China) in the world Total Energy Supply change between 1990 and 2022, and what was the absolute TES growth (in EJ) over this period?",
+    #     "Compare the energy intensity (GJ per thousand dollars) of China and Iceland in 2022. By how many times is Iceland more energy-intensive than China?",
+    #     "For the United States: how did electricity generation from coal change between 1990 and 2022 (in TWh), and how did the coal share in the electricity mix change?",
+    #     "For Europe: calculate the ratio between natural gas consumption in Total Final Consumption and its share in thermal electricity generation (natural-gas-based) in 2022.",
+    #     "What was the ratio between Primary Energy Production and Total Energy Supply in Saudi Arabia in 2022, and did the country exceed 100% self-sufficiency?",
+    #     "Which energy source showed the largest increase in global Total Energy Supply between 1990 and 2022 (in EJ), and which source showed the largest decrease?",
+    #     "Compare global coal and oil production trends from 1990 to 2022. In which year did coal first surpass oil?",
+    #     "Using the 'electricity capacity by type 1990–2022' chart, how did the contribution of solar power to global installed capacity change (in GW and % of total capacity)?",
+    #     "How did the share of renewable electricity in global power generation change between 2010 and 2022, and which renewable category contributed the most to this growth?",
+    #     "Based on the refinery output chart (1990–2022), which refinery product (naphtha, kerosene, gasoline, fuel oil, other) increased the fastest between 2000 and 2022?",
+    #     "Which region had the highest Total Final Consumption per capita in 2022, and which had the lowest? What is the difference between these values?",
+    #     "Compare renewable electricity generation in China and Europe. For which renewable type is the gap the largest?",
+    #     "Which region produced the most biofuels and waste in 2022, and what share of this production came from fuelwood?",
+    #     "Which three countries had the highest renewable electricity capacity per capita in 2022, and how do they compare to the world average?",
+    #     "Where does India rank in Asia (excluding China) in electricity generation from wind and solar sources?",
+    #     "Compare the growth of solar electricity generation (1990–2022) with the growth of installed solar capacity. Which grew faster: generation or capacity?",
+    #     "How did China’s energy intensity (GJ per thousand $) change relative to its TES per capita between 2000 and 2022, and what does this imply about economic efficiency?",
+    #     "How are changes in global refinery output related to changes in transport sector TFC between 2000 and 2022? Is there an observable correlation?",
+    #     "Compare the share of coal in China’s TES, in primary production, and in electricity generation. Why do these shares differ? Provide numeric values.",
+    #     "Compare CO₂ emissions from fossil fuels across regions with their shares in Total Energy Supply. Does the emissions share match the energy share? Where is the discrepancy largest?"
+    # ]
 
     mongo = MongoDBHandler(config)
-    fm = FileManager()
+    file_names = ["TestFiles/UNKyrgystan.PDF"]
+    questions = mongo.getFileQuestions("UNKyrgystan.PDF")
+    rag_client = RagPipline(PyMuPdf4LLM(), SymbolChunker, ChromaDB, Gemini(config["gemini_config"]), file_names, questions)
+    answers = rag_client.process()
+    print("\n\n".join(answers))
+
+
+    # fm = FileManager()
     # fm.reinitFiles()
-    fm.updateFiles(mongo)
-    print()
+    # fm.updateFiles(mongo)
+    # print()

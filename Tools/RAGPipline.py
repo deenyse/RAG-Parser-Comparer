@@ -14,16 +14,16 @@ class RagPipline:
         self.files_names = files_names
         self.queries = queries
 
-        self.chunk_size = 200
-        self.chunk_overlap = 50
-        self.related_chunks_amount = 10
+        self.chunk_size = 300
+        self.chunk_overlap = 75
+        self.related_chunks_amount = 3
 
         self.database_client = database()
 
     def process(self) -> Optional[List[str]]:
 
         self.database_client.reset()
-
+        print("PIPLINE: Chopping files")
         for file_name in self.files_names:
             chunker_client = self.chunker(self.parser, file_name, self.chunk_size, self.chunk_overlap)
 
@@ -39,8 +39,9 @@ class RagPipline:
 
                 if batch:
                     self.database_client.add_chunks(batch)
+        print("PIPLINE: Retrieving related chunks")
+        context = self.database_client.get_documents(self.queries, self.related_chunks_amount * len(self.queries))
 
-        context = self.database_client.get_documents(self.queries, self.related_chunks_amount)
-
+        print("PIPLINE: Generating response")
         response = self.llm_client.get_response_based_on_context(self.queries, context=context)
         return response
