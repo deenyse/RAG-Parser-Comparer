@@ -1,5 +1,5 @@
-from ClassInterfaces.IChunker import IChunker
-from ClassInterfaces import  IParser
+from src.interfaces.IChunker import IChunker
+from src.interfaces import IParser
 from typing import Optional
 
 

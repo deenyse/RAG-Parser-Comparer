@@ -1,4 +1,4 @@
-from ClassInterfaces.IDatabase import IDatabase
+from src.interfaces.IDatabase import IDatabase
 import chromadb
 from uuid import uuid4
 from typing import Optional

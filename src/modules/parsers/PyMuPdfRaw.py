@@ -1,6 +1,6 @@
 import pymupdf
 from typing import Optional, Iterator
-from ClassInterfaces.IParser import IParser
+from src.interfaces.IParser import IParser
 
 
 class PyMuPdfRaw(IParser):

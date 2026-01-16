@@ -1,4 +1,4 @@
-from ClassInterfaces.IParser import IParser
+from src.interfaces.IParser import IParser
 from typing import Optional, Iterator
 import docx
 

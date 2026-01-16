@@ -1,4 +1,4 @@
-from ClassInterfaces.IParser import IParser
+from src.interfaces.IParser import IParser
 from llama_cloud_services import LlamaParse
 from typing import Optional, Iterator
 import nest_asyncio

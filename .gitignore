@@ -11,5 +11,5 @@ env/
 .DS_Store
 
 #Project uncommit files
-TestFiles
-config.yaml
+data
+configs/config.yaml

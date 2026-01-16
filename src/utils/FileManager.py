@@ -1,8 +1,8 @@
 import os
 import shutil
 import gdown
-from typing import List, Optional
-from Tools.MongoDBHandler import MongoDBHandler
+from typing import List
+from src.utils.MongoDBHandler import MongoDBHandler
 
 
 class FileManager:

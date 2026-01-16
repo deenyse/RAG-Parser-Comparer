@@ -1,6 +1,6 @@
 import pdfplumber
 from typing import Optional
-from ClassInterfaces.IParser import IParser
+from src.interfaces.IParser import IParser
 
 class PdfPlumber(IParser):
     #place to keep opened file

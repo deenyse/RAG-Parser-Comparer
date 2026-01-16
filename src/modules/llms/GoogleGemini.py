@@ -1,7 +1,7 @@
 from google import genai
 from google.genai import types
 from typing import Optional, Union, List
-from ClassInterfaces.ILLM import ILLM
+from src.interfaces.ILLM import ILLM
 
 
 class Gemini(ILLM):

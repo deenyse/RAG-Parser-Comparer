@@ -1,19 +1,10 @@
-from PIL.PdfParser import PdfParser
-
-from Parsers.LlamaParse import LlamaParseMd
-from Tools.config import get_config
-from Tools.RAGPipline import RagPipline
-from LLMs.GoogleGemini import Gemini
-from DBs.ChromaDB import ChromaDB
-from Chunkers.SymbolChunker import SymbolChunker
-from Tools.MongoDBHandler import MongoDBHandler
-from Tools.FileManager import FileManager
-from Parsers.PdfPlumber import PdfPlumber
-from Parsers.PyMuPdf4LLM import PyMuPdf4LLM
-from Parsers.PyMuPdfRaw import PyMuPdfRaw
-from Parsers.DoclingParse import DoclingParser
-from Parsers.AzureParse import AzureDocumentParser
-
+from src.utils.Config import get_config
+from src.piplenes.RAGPipline import RagPipline
+from src.modules.llms.GoogleGemini import Gemini
+from src.modules.vector_dbs.ChromaDB import ChromaDB
+from src.modules.chunkers.SymbolChunker import SymbolChunker
+from src.utils.MongoDBHandler import MongoDBHandler
+from src.modules.parsers.PyMuPdf4LLM import PyMuPdf4LLM
 
 if __name__ == "__main__":
     # Load configuration

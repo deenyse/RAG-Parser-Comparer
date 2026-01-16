@@ -1,9 +1,9 @@
 # RAG Pipeline module: provides a universal function for running Retrieval-Augmented Generation (RAG) with pluggable parser, chunker, database, and LLM components.
-from uvicorn import Config
-from ClassInterfaces import IChunker, IDatabase
-from ClassInterfaces.IParser import IParser
-from ClassInterfaces.ILLM import ILLM
-from typing import List, Union, Type, Optional
+from src.interfaces import IChunker, IDatabase
+from src.interfaces.IParser import IParser
+from src.interfaces.ILLM import ILLM
+from typing import List, Optional
+import time
 
 class RagPipline:
     def __init__(self, parser: IParser, chunker: IChunker, database: IDatabase, llm_client: ILLM, files_names: List[str], queries: List[str]) -> None:
@@ -23,7 +23,8 @@ class RagPipline:
     def process(self) -> Optional[List[str]]:
 
         self.database_client.reset()
-        print("PIPLINE: Chopping files")
+        print("PIPLINE: Chopping and vectorizing files")
+        start_vectorization = time.perf_counter()
         for file_name in self.files_names:
             chunker_client = self.chunker(self.parser, file_name, self.chunk_size, self.chunk_overlap)
 
@@ -39,9 +40,31 @@ class RagPipline:
 
                 if batch:
                     self.database_client.add_chunks(batch)
+
+        end_vectorization = time.perf_counter()
+        vectorization_time = end_vectorization - start_vectorization
+        print(f"DONE: Vectorization took {vectorization_time:.2f} seconds.")
+
+
         print("PIPLINE: Retrieving related chunks")
+        start_retrieval = time.perf_counter()
+
         context = self.database_client.get_documents(self.queries, self.related_chunks_amount * len(self.queries))
 
-        print("PIPLINE: Generating response")
+        end_retrieval = time.perf_counter()
+        retrieval_time = end_retrieval - start_retrieval
+        print(f"DONE: Retrieval took {retrieval_time:.4f} seconds.")
+
+        print("PIPLINE: Generating response...")
+        start_generation = time.perf_counter()
+
         response = self.llm_client.get_response_based_on_context(self.queries, context=context)
+
+        end_generation = time.perf_counter()
+        generation_time = end_generation - start_generation
+        print(f"DONE: Generation took {generation_time:.2f} seconds.")
+
+        total_time = vectorization_time + retrieval_time + generation_time
+        print(f"\n--- Total Pipeline Execution Time: {total_time:.2f} seconds ---")
+
         return response

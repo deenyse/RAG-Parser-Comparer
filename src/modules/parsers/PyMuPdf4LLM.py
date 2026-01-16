@@ -1,6 +1,6 @@
 import pymupdf4llm
 from typing import Optional, Iterator
-from ClassInterfaces.IParser import IParser
+from src.interfaces.IParser import IParser
 
 
 class PyMuPdf4LLM(IParser):
