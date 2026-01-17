@@ -1,10 +1,10 @@
 import pymupdf4llm
 from typing import Optional, Iterator
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
-class PyMuPdf4LLM(IParser):
+class PyMuPdf4LLM(BaseParser):
     info = ParserInfo(
         name= "pymupdf4llm",
         supported_types= [FileType.PDF],

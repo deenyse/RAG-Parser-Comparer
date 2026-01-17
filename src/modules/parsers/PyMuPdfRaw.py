@@ -1,10 +1,10 @@
 import pymupdf
 from typing import Optional, Iterator
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
-class PyMuPdfRaw(IParser):
+class PyMuPdfRaw(BaseParser):
     info = ParserInfo(
         name= "pymupdf_raw",
         supported_types= [FileType.PDF],

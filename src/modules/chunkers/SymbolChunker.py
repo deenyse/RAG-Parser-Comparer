@@ -1,17 +1,12 @@
-from src.interfaces.IChunker import IChunker
-from src.interfaces import IParser
+from src.interfaces.BaseChunker import BaseChunker, ChunkerParams
+from src.interfaces import BaseParser
 from typing import Optional
 
 
-class SymbolChunker(IChunker):
+class SymbolChunker(BaseChunker):
     """
     Chunker that splits text into chunks by a specified number of symbols (characters).
     Maintains overlap between chunks for context preservation.
-    Args:
-        parser (IParser): Parser instance to read the file.
-        file_name (str): Path to the file to chunk.
-        chunk_size (int): Target size of each chunk (in symbols).
-        overlap_size (int): Number of symbols to overlap between chunks.
     """
 
     name = "symbol"
@@ -25,35 +20,22 @@ class SymbolChunker(IChunker):
     # chunk to be returned after next in the iteration
     new_chunk = ""
 
-    def __init__(self, parser: IParser, file_name:str, chunk_size:int, overlap_size:int) -> None:
-        """
-        Initialize the SymbolChunker.
-        Args:
-            parser (IParser): Parser instance.
-            file_name (str): File to chunk.
-            chunk_size (int): Number of symbols per chunk.
-            overlap_size (int): Number of overlapping symbols.
-        Raises:
-            ValueError: If chunk_size or overlap_size are invalid.
-        """
-        if chunk_size <= 0:
-            raise ValueError("chunk_size must be positive")
-        if overlap_size < 0:
-            raise ValueError("overlap_size cannot be negative")
-        if overlap_size > chunk_size:
-            raise ValueError("overlap_size cannot be larger than chunk_size")
-        super().__init__(parser, file_name, chunk_size, overlap_size)
+    parser = None
 
-    def open(self) -> None:
+    def __init__(self,  params: ChunkerParams) -> None:
+        super().__init__(params)
+
+    def open(self, parser:BaseParser, file_name:str) -> None:
         """
         Open the file for chunking.
         Raises:
             Exception: If file location is incorrect or cannot be opened.
         """
+        self.parser = parser
         try:
-            if self.file_name is None:
+            if file_name is None:
                 raise Exception("File location is incorrect")
-            self.parser.open(self.file_name)
+            self.parser.open(file_name)
         except Exception as e:
             raise Exception(f"Error opening file: {e}")
 
@@ -85,17 +67,17 @@ class SymbolChunker(IChunker):
         if self.parser is None:
             raise RuntimeError("File is not open")
 
-        if len(self.input_text_buffer) < self.chunk_size - self.overlap_size:
+        if len(self.input_text_buffer) < self.params.chunk_size - self.params.chunk_overlap:
             self.expand_input_text_buffer()
 
         if not self.is_more_text and self.input_text_buffer == "":
             return None
 
         self.new_chunk = self.prev_chunk_overlap
-        self.new_chunk += self.input_text_buffer[:self.chunk_size - len(self.prev_chunk_overlap)]
+        self.new_chunk += self.input_text_buffer[:self.params.chunk_size - len(self.prev_chunk_overlap)]
         
-        self.input_text_buffer = self.input_text_buffer[self.chunk_size - len(self.prev_chunk_overlap):]
-        self.prev_chunk_overlap = self.new_chunk[self.chunk_size - self.overlap_size:]
+        self.input_text_buffer = self.input_text_buffer[self.params.chunk_size - len(self.prev_chunk_overlap):]
+        self.prev_chunk_overlap = self.new_chunk[self.params.chunk_size - self.params.chunk_overlap:]
         
         return self.new_chunk
 

@@ -89,5 +89,26 @@ class MongoDBHandler:
             print(f"Error fetching questions for {filename}: {e}")
             return []
 
+    def getFileAnswers(self, filename: str) -> List[str]:
+        try:
+            file_doc = self.files_collection.find_one({"filename": filename}, {"_id": 1})
+
+            if not file_doc:
+                print(f"File '{filename}' not found in database.")
+                return []
+
+            file_id = file_doc["_id"]
+
+            query = {"fileId": file_id}
+            projection = {"answer": 1, "_id": 0}
+
+            cursor = self.qa_collection.find(query, projection)
+
+            return [doc["answer"] for doc in cursor if "answer" in doc]
+
+        except Exception as e:
+            print(f"Error fetching answers for {filename}: {e}")
+            return []
+
     def close(self):
         self.client.close()

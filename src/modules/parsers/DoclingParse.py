@@ -1,9 +1,9 @@
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from typing import Optional, Iterator
 from docling.document_converter import DocumentConverter
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
-class DoclingParser(IParser):
+class DoclingParser(BaseParser):
     info = ParserInfo(
         name= "docling",
         supported_types= [FileType.PDF, FileType.DOCX],

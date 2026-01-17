@@ -11,9 +11,11 @@ class FileManager:
     Assumes ALL links provided are Google Drive links.
     Uses 'gdown' for robust downloading (handles auth, large files, view/download links).
     """
-    def __init__(self, base_folder: str = "TestFiles") -> None:
+    def __init__(self, base_folder: str = "data/files") -> None:
         self.base_folder = base_folder
 
+    def get_file_location(self, file_name: str) -> str:
+        return os.path.join(self.base_folder, file_name)
     def reinitFiles(self) -> None:
         if os.path.exists(self.base_folder):
             try:

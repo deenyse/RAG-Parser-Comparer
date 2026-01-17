@@ -1,20 +1,21 @@
-from src.interfaces.IDatabase import IDatabase
+from src.interfaces.BaseVectorDB import BaseVectorDB
 import chromadb
 from chromadb.types import Collection
 from uuid import uuid4
 from typing import Optional, Any
 
 
-class ChromaDB(IDatabase):
+class ChromaDB(BaseVectorDB):
     chroma_client = None
 
     def __init__(self) -> None:
         super().__init__()
         self.chroma_client = chromadb.Client()
 
-    def add_chunks(self, collection: Collection, documents: list[str]) -> None:
+    def add_chunks(self, collection_name: str, documents: list[str]) -> None:
         if not documents:
             return
+        collection = self.chroma_client.get_collection(collection_name)
 
         collection.add(
             ids=[str(uuid4()) for _ in range(len(documents))],
@@ -22,7 +23,8 @@ class ChromaDB(IDatabase):
         )
 
 
-    def get_documents(self, collection: Collection,queries:list[str], documents_amount:Optional[int]) -> Optional[list[str]]:
+    def get_documents(self, collection_name: str,queries:list[str], documents_amount:Optional[int]) -> Optional[list[str]]:
+        collection = self.chroma_client.get_collection(collection_name)
         result = collection.query(
             query_texts=queries,
             n_results=documents_amount,
@@ -38,13 +40,14 @@ class ChromaDB(IDatabase):
 
         return list(unique_docs)
 
-    def delete_collection(self, collection: Collection) -> None:
+    def delete_collection(self, collection_name: str) -> None:
+        collection = self.chroma_client.get_collection(collection_name)
         try:
             collection.delete()
         except Exception:
             pass  # Collection might not exist
 
-    def create_collection(self, collection_name:str) -> Any:
+    def create_collection(self, collection_name:str) -> None:
         # self.collection = self.chroma_client.create_collection(name="RetrieveCollection")
         return self.chroma_client.create_collection(name=collection_name)
 

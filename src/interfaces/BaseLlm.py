@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Any
 
-class ILLM(ABC):
+class BaseLLM(ABC):
     """
     Abstract base class for Large Language Model (LLM) interfaces.
     Provides a method for generating responses based on context.
@@ -20,3 +20,6 @@ class ILLM(ABC):
         """
         pass
 
+    @abstractmethod
+    def get_int_response(self, query:str) -> Any:
+        pass

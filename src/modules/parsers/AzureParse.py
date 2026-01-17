@@ -1,4 +1,4 @@
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from typing import Optional, Iterator
 
 from azure.core.credentials import AzureKeyCredential
@@ -7,7 +7,7 @@ from azure.ai.documentintelligence import DocumentIntelligenceClient
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
-class AzureDocumentParser(IParser):
+class AzureDocumentParser(BaseParser):
 
     info = ParserInfo(
         name= "azure",

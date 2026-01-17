@@ -1,13 +1,13 @@
 # RAG Pipeline module: provides a universal function for running Retrieval-Augmented Generation (RAG) with pluggable parser, chunker, database, and LLM components.
-from src.interfaces import IChunker
-from src.interfaces.IDatabase import IDatabase
-from src.interfaces.IParser import IParser
-from src.interfaces.ILLM import ILLM
+from src.interfaces import BaseChunker
+from src.interfaces.BaseVectorDB import BaseVectorDB
+from src.interfaces.BaseParser import BaseParser
+from src.interfaces.BaseLlm import BaseLLM
 from typing import List, Optional, Any
 import time
 
 class RagPipline:
-    def __init__(self, parser: IParser, chunker: IChunker, database: IDatabase, llm_client: ILLM, file_name: str, queries: List[str]) -> None:
+    def __init__(self, parser: BaseParser, chunker: BaseChunker, database: BaseVectorDB, llm_client: BaseLLM, file_name: str, queries: List[str]) -> None:
         self.parser = parser
         self.chunker = chunker
         self.database = database

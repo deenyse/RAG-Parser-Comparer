@@ -1,9 +1,9 @@
 import pdfplumber
 from typing import Optional
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
-class PdfPlumber(IParser):
+class PdfPlumber(BaseParser):
     info = ParserInfo(
         name= "pdf_plumber",
         supported_types= [FileType.PDF],

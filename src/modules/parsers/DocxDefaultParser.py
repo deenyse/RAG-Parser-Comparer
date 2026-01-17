@@ -1,10 +1,10 @@
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from typing import Optional, Iterator
 import docx
 from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
-class DocxParser(IParser):
+class DocxParser(BaseParser):
     info = ParserInfo(
         name= "docx_default",
         supported_types= [FileType.DOCX],

@@ -1,4 +1,4 @@
-from src.interfaces.IParser import IParser
+from src.interfaces.BaseParser import BaseParser
 from llama_cloud_services import LlamaParse
 from typing import Optional, Iterator
 import nest_asyncio
@@ -7,7 +7,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 nest_asyncio.apply()
 
 
-class LlamaParseMd(IParser):
+class LlamaParseMd(BaseParser):
     info = ParserInfo(
         name= "llama_parse",
         supported_types= [FileType.PDF, FileType.DOCX],

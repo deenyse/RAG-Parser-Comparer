@@ -4,7 +4,7 @@ from typing import Optional, Iterator
 from src.interfaces.parser import ParserInfo
 
 
-class IParser(ABC):
+class BaseParser(ABC):
     """
     Abstract base class for file parsers in the system.
     Provides interface for opening, closing, and iterating over text blocks in a file.

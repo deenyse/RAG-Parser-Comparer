@@ -1,10 +1,10 @@
 from google import genai
 from google.genai import types
-from typing import Optional, Union, List
-from src.interfaces.ILLM import ILLM
+from typing import Optional, Union, List, Any
+from src.interfaces.BaseLlm import BaseLLM
 
 
-class Gemini(ILLM):
+class Gemini(BaseLLM):
     def __init__(self, api_key:str, query_model:str) -> None:
         self.query_model = query_model
         self.client = genai.Client(api_key=api_key)
@@ -68,3 +68,19 @@ class Gemini(ILLM):
         except Exception as e:
             print(e)
 
+    def get_int_response(self, query:str) -> Any:
+        try:
+            response = self.client.models.generate_content(
+                model=self.query_model,
+                contents=query,
+                config=types.GenerateContentConfig(
+                    response_mime_type="application/json",
+                    response_schema=int,
+                    temperature = 0
+                )
+            )
+
+            return response.parsed
+
+        except Exception as e:
+            print(e)
