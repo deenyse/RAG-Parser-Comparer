@@ -9,14 +9,14 @@ if __name__ == "__main__":
 
 
     mongo = MongoDBHandler(Config.get_value("mongodb", "uri"), Config.get_value("mongodb", "db_name"))
-    file_names = "data/UNKyrgystan.PDF"
+    file_name = "data/UNKyrgystan.PDF"
     questions = mongo.getFileQuestions("UNKyrgystan.PDF")
     rag_client = (
         RagPipline(ParserFactory.py_mu_pfd_4_llm(),
                    SymbolChunker,
                    ChromaDB(),
                    Gemini(Config.get_value("gemini_config", "api_key"), Config.get_value("gemini_config", "query_model")),
-                   file_names,
+                   file_name,
                    questions)
     )
     answers = rag_client.process()
