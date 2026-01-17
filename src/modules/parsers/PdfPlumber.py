@@ -1,8 +1,15 @@
 import pdfplumber
 from typing import Optional
 from src.interfaces.IParser import IParser
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class PdfPlumber(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.PDF],
+        connectivity=Connectivity.OFFLINE,
+        is_ocr=False,
+    )
+
     #place to keep opened file
     file = None
     #palce to keep pages iterator retrieved from files

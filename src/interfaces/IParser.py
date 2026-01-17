@@ -1,16 +1,20 @@
-from abc import ABC, abstractmethod, abstractproperty
+from abc import ABC, abstractmethod
 from typing import Optional, Iterator
+
+from src.interfaces.parser import ParserInfo
+
 
 class IParser(ABC):
     """
     Abstract base class for file parsers in the system.
     Provides interface for opening, closing, and iterating over text blocks in a file.
     """
-    def __init__(self, config:Optional[dict] = None) -> None:
+
+    @property
+    @abstractmethod
+    def info(self) -> ParserInfo:
         """
-        Initialize the parser with an optional file name.
-        Args:
-            file_name (Optional[str]): File to parse.
+        Parser Metadata
         """
         pass
     @abstractmethod

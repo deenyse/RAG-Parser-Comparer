@@ -4,16 +4,21 @@ from typing import Optional, Iterator
 from azure.core.credentials import AzureKeyCredential
 from azure.ai.documentintelligence import DocumentIntelligenceClient
 
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
+
 
 class AzureDocumentParser(IParser):
+
+    info = ParserInfo(
+        supported_types= [FileType.PDF, FileType.DOCX],
+        connectivity=Connectivity.ONLINE,
+        is_ocr=True,
+    )
+
     client: Optional[DocumentIntelligenceClient] = None
     pages_iterator: Optional[Iterator[str]] = None
 
-    def __init__(self, config: Optional[dict] = None) -> None:
-
-        endpoint = config["azure"]["endpoint"]
-        api_key = config["azure"]["api_key"]
-
+    def __init__(self, api_key: str , endpoint: str) -> None:
         if not endpoint or not api_key:
             raise ValueError("Azure Endpoint or API Key is missing in config or env variables.")
 

@@ -4,11 +4,7 @@ from typing import List, Dict, Optional
 
 
 class MongoDBHandler:
-    def __init__(self, config: dict) -> None:
-        mongo_conf = config.get("mongodb", {})
-        uri = mongo_conf.get("uri")
-        db_name = mongo_conf.get("db_name")
-
+    def __init__(self, uri: str, db_name:str) -> None:
         if not uri or not db_name:
             raise ValueError("MongoDB URI or DB Name is missing in config.")
 

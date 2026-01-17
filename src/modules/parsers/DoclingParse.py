@@ -1,9 +1,15 @@
 from src.interfaces.IParser import IParser
 from typing import Optional, Iterator
 from docling.document_converter import DocumentConverter
-
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class DoclingParser(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.PDF, FileType.DOCX],
+        connectivity=Connectivity.OFFLINE,
+        is_ocr=True,
+    )
+
     converter: Optional[DocumentConverter] = None
     pages_iterator: Optional[Iterator[str]] = None
 

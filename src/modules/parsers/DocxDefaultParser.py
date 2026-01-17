@@ -1,9 +1,15 @@
 from src.interfaces.IParser import IParser
 from typing import Optional, Iterator
 import docx
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
 class DocxParser(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.DOCX],
+        connectivity=Connectivity.OFFLINE,
+        is_ocr=False,
+    )
 
     doc = None
     block_iterator: Optional[Iterator[str]] = None

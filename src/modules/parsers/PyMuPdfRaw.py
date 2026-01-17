@@ -1,9 +1,16 @@
 import pymupdf
 from typing import Optional, Iterator
 from src.interfaces.IParser import IParser
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
 class PyMuPdfRaw(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.PDF],
+        connectivity=Connectivity.OFFLINE,
+        is_ocr=False,
+    )
+
     doc = None
     pages_iterator: Optional[Iterator] = None
 

@@ -2,18 +2,22 @@ from src.interfaces.IParser import IParser
 from llama_cloud_services import LlamaParse
 from typing import Optional, Iterator
 import nest_asyncio
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 nest_asyncio.apply()
 
 
 class LlamaParseMd(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.PDF, FileType.DOCX],
+        connectivity=Connectivity.ONLINE,
+        is_ocr=True,
+    )
 
     documents_iterator: Optional[Iterator] = None
     parser: Optional[LlamaParse] = None
 
-    def __init__(self, config: Optional[dict] = None) -> None:
-        api_key=config["llama_parse"]["api_key"]
-
+    def __init__(self, api_key:str) -> None:
         if not api_key:
             raise ValueError("API Key for LlamaCloud is missing in config or env variables.")
 

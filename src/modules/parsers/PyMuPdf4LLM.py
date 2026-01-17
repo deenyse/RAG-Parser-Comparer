@@ -1,9 +1,16 @@
 import pymupdf4llm
 from typing import Optional, Iterator
 from src.interfaces.IParser import IParser
+from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 
 class PyMuPdf4LLM(IParser):
+    info = ParserInfo(
+        supported_types= [FileType.PDF],
+        connectivity=Connectivity.OFFLINE,
+        is_ocr=False,
+    )
+
     # Iterator for parsed pages
     pages_iterator: Optional[Iterator[dict]] = None
 
