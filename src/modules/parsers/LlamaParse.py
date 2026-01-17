@@ -9,6 +9,7 @@ nest_asyncio.apply()
 
 class LlamaParseMd(IParser):
     info = ParserInfo(
+        name= "llama_parse",
         supported_types= [FileType.PDF, FileType.DOCX],
         connectivity=Connectivity.ONLINE,
         is_ocr=True,

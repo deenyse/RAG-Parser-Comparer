@@ -19,6 +19,14 @@ class IChunker(ABC):
         self.chunk_size = chunk_size
         self.overlap_size = overlap_size
 
+    @property
+    @abstractmethod
+    def name(self) -> str:
+        """
+        Chunker identification name
+        """
+        pass
+
     @abstractmethod
     def open(self) -> None:
         pass

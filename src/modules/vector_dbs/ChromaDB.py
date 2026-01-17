@@ -1,33 +1,34 @@
 from src.interfaces.IDatabase import IDatabase
 import chromadb
+from chromadb.types import Collection
 from uuid import uuid4
-from typing import Optional
+from typing import Optional, Any
+
 
 class ChromaDB(IDatabase):
     chroma_client = None
-    collection = None
+
     def __init__(self) -> None:
         super().__init__()
         self.chroma_client = chromadb.Client()
-        self.collection = self.chroma_client.create_collection(name="RetrieveCollection")
 
-    def add_chunks(self, documents: list[str]) -> None:
+    def add_chunks(self, collection: Collection, documents: list[str]) -> None:
         if not documents:
             return
 
-        self.collection.add(
+        collection.add(
             ids=[str(uuid4()) for _ in range(len(documents))],
             documents=documents,
         )
 
 
-    def get_documents(self, queries:list[str], documents_amount:Optional[int]) -> Optional[list[str]]:
-        result = self.collection.query(
+    def get_documents(self, collection: Collection,queries:list[str], documents_amount:Optional[int]) -> Optional[list[str]]:
+        result = collection.query(
             query_texts=queries,
             n_results=documents_amount,
         )
 
-        # ChromaDB return list[list[str]]. Нам нужно превратить это в list[str]
+        # ChromaDB return list[list[str]]. Must change it into list[str]
         raw_docs = result["documents"]
         unique_docs = set()
 
@@ -37,13 +38,15 @@ class ChromaDB(IDatabase):
 
         return list(unique_docs)
 
-    def reset(self) -> None:
+    def delete_collection(self, collection: Collection) -> None:
         try:
-            self.chroma_client.delete_collection("RetrieveCollection")
+            collection.delete()
         except Exception:
             pass  # Collection might not exist
-        self.collection = self.chroma_client.create_collection(name="RetrieveCollection")
 
+    def create_collection(self, collection_name:str) -> Any:
+        # self.collection = self.chroma_client.create_collection(name="RetrieveCollection")
+        return self.chroma_client.create_collection(name=collection_name)
 
 
 

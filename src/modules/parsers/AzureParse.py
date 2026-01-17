@@ -10,6 +10,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 class AzureDocumentParser(IParser):
 
     info = ParserInfo(
+        name= "azure",
         supported_types= [FileType.PDF, FileType.DOCX],
         connectivity=Connectivity.ONLINE,
         is_ocr=True,

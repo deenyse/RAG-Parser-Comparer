@@ -5,6 +5,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class DoclingParser(IParser):
     info = ParserInfo(
+        name= "docling",
         supported_types= [FileType.PDF, FileType.DOCX],
         connectivity=Connectivity.OFFLINE,
         is_ocr=True,

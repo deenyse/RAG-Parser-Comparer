@@ -5,6 +5,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class PdfPlumber(IParser):
     info = ParserInfo(
+        name= "pdf_plumber",
         supported_types= [FileType.PDF],
         connectivity=Connectivity.OFFLINE,
         is_ocr=False,
@@ -20,9 +21,7 @@ class PdfPlumber(IParser):
 
     def open(self, file_name:str) -> None:
         try:
-            self.file_name = file_name
-
-            self.file = pdfplumber.open(self.file_name)
+            self.file = pdfplumber.open(file_name)
             self.page_iterator = iter(self.file.pages)
         except Exception as e:
             raise Exception(f"Error opening file: {e}")

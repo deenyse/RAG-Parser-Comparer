@@ -13,6 +13,9 @@ class SymbolChunker(IChunker):
         chunk_size (int): Target size of each chunk (in symbols).
         overlap_size (int): Number of symbols to overlap between chunks.
     """
+
+    name = "symbol"
+
     # is more text to get from file
     is_more_text = True
     # buffer for text from file

@@ -5,11 +5,9 @@ from src.interfaces.ILLM import ILLM
 
 
 class Gemini(ILLM):
-    def __init__(self, gemini_conf:dict) -> None:
-        super().__init__(gemini_conf)
-        self.query_model = gemini_conf["query_model"]
-
-        self.client = genai.Client(api_key=gemini_conf["api_key"])
+    def __init__(self, api_key:str, query_model:str) -> None:
+        self.query_model = query_model
+        self.client = genai.Client(api_key=api_key)
     def get_response_based_on_context(self, queries:Union[List[str], str], context:Optional[list[str]] = None, model:Optional[str] = None) -> Optional[List[str]]:
 
         if type(queries) == list:

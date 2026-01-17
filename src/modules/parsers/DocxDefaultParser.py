@@ -6,6 +6,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class DocxParser(IParser):
     info = ParserInfo(
+        name= "docx_default",
         supported_types= [FileType.DOCX],
         connectivity=Connectivity.OFFLINE,
         is_ocr=False,

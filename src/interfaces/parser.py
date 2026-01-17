@@ -11,6 +11,7 @@ class Connectivity(Enum):
 
 @dataclass(frozen=True)
 class ParserInfo:
+    name: str
     supported_types: list[FileType]
     connectivity: Connectivity
     is_ocr: bool

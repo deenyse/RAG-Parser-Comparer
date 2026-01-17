@@ -6,6 +6,7 @@ from src.interfaces.parser import ParserInfo, FileType, Connectivity
 
 class PyMuPdfRaw(IParser):
     info = ParserInfo(
+        name= "pymupdf_raw",
         supported_types= [FileType.PDF],
         connectivity=Connectivity.OFFLINE,
         is_ocr=False,
